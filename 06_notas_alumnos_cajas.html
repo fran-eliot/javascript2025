@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .personal{
+            color:blue;
+            font-size:25px;
+            font-style:italic;
+        }
+        input{
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px; 
+        }
+    </style>
+</head>
+<body>
+    <button onclick="nuevaNota();" class="personal">Nueva nota</button>
+    <input type="text" id="nota">
+    <br>
+    <br>
+    <button onclick="totalAprobados();">Aprobados</button>
+    <button onclick="calcularMedia();">Nota media</button>
+    <button onclick="notaMasAlta();">Nota más alta</button>
+    <button onclick="notaMasBaja();">Nota más baja</button>
+    <br><br>
+    <div id="result" class="personal"></div>
+
+    <script>
+        //array con las notas
+        let notas=[7,5,2,4,9,6,1,3,4,8,7,6];
+        function totalAprobados(){
+            let totalAprobados=0;
+            // for(let i=0;i<notas.length;i++){
+            //     if (notas[i]>=5){
+            //         totalAprobados++ ;
+            //     }
+            // }
+            for (let n of notas){
+                if(n>=5){
+                    totalAprobados++;
+                }
+            }
+            let result = document.getElementById("result").innerHTML="<b> Total de aprobados: "+totalAprobados+"</b>"
+        }
+
+        function calcularMedia(){
+            let sumaNotas = 0;
+            let notaMedia = 0;
+            for (let n of notas){
+                sumaNotas = sumaNotas + n;
+            }
+            notaMedia = sumaNotas /notas.length;
+            let result = document.getElementById("result").innerHTML="<b> Nota media: "+parseFloat(notaMedia)+"</b>"
+         
+        }
+
+        function notaMasAlta(){
+            let notaMasAlta = notas[0];
+            for(let n of notas){
+                if (n>notaMasAlta){
+                    notaMasAlta = n;
+                }
+            }
+            let result = document.getElementById("result").innerHTML="<b> Nota más alta: "+parseInt(notaMasAlta)+"</b>"
+        }
+        function notaMasBaja(){
+            let notaMasBaja = notas[0];
+            for(let n of notas){
+                if (n<notaMasBaja){
+                    notaMasBaja = n;
+                }
+            }
+            let result = document.getElementById("result").innerHTML="<b> Nota más baja: "+parseInt(notaMasBaja)+"</b>"
+        }
+
+        function nuevaNota(){
+
+                       
+                
+            let nuevaNota= parseInt(document.getElementById("nota").value);
+            if (nuevaNota>=0 && nuevaNota<=10){
+                notas.push(parseInt(nuevaNota));
+            }else{
+                alert("Nota no válida!!!")
+            }
+
+             
+           
+            
+        }
+
+    </script>
+</body>
+</html>

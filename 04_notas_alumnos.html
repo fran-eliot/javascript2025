@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="nuevaNota();">Nueva nota</button>
+    <br>
+    <br>
+    <button onclick="totalAprobados();">Aprobados</button>
+    <button onclick="calcularMedia();">Nota media</button>
+    <button onclick="notaMasAlta();">Nota más alta</button>
+    <button onclick="notaMasBaja();">Nota más baja</button>
+
+    <script>
+        //array con las notas
+        let notas=[7,5,2,4,9,6,1,3,4,8,7,6];
+        function totalAprobados(){
+            let totalAprobados=0;
+            // for(let i=0;i<notas.length;i++){
+            //     if (notas[i]>=5){
+            //         totalAprobados++ ;
+            //     }
+            // }
+            for (let n of notas){
+                if(n>=5){
+                    totalAprobados++;
+                }
+            }
+            alert("Total aprobados: "+totalAprobados)
+        }
+
+        function calcularMedia(){
+            let sumaNotas = 0;
+            let notaMedia = 0;
+            for (let n of notas){
+                sumaNotas = sumaNotas + n;
+            }
+            notaMedia = sumaNotas /notas.length;
+            alert("La nota media es "+notaMedia)
+        }
+
+        function notaMasAlta(){
+            let notaMasAlta = notas[0];
+            for(let n of notas){
+                if (n>notaMasAlta){
+                    notaMasAlta = n;
+                }
+            }
+            alert("La nota más alta es "+notaMasAlta);
+        }
+        function notaMasBaja(){
+            let notaMasBaja = notas[0];
+            for(let n of notas){
+                if (n<notaMasBaja){
+                    notaMasBaja = n;
+                }
+            }
+            alert("La nota más baja es "+notaMasBaja);
+        }
+
+        function nuevaNota(){
+
+            let nuevaNota;
+            do{
+                nuevaNota= prompt("Introduzca nueva nota: ")
+            }while(nuevaNota<0 || nuevaNota>10);
+           
+            notas.push(parseInt(nuevaNota));
+        }
+
+    </script>
+</body>
+</html>
