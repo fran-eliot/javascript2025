@@ -18,15 +18,26 @@
 
         function guardar(){
             let n=document.getElementById("nombre").value;
-
-            nombres.push(n);
-            alert("Contacto guardado");
+            let repetido = false;
+            for(nombre of nombres){
+                if (n==nombre){
+                    repetido = true;
+                }
+            }
+            if (repetido){
+                alert("Contacto repetido");
+            }else{
+                nombres.push(n);
+                alert("Contacto guardado");
+            }
+            document.getElementById("nombre").value = "";
+            
         }
 
         function mostrar(){
             let html= "";
             for(nombre of nombres){
-                html=html+"<b>"+nombre+"</b><br>";
+                html=html+"<b>"+nombre+"</b><a><img src='papelera-de-reciclaje.png' height='15px' width='15px'></a><br>";
             }
             document.getElementById("listaNombres").innerHTML=html;
         }
