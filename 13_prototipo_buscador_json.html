@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Temática:<input type="text" id="tematica"><br><br>
+    <button onclick="buscar();">Buscar</button>
+    <div id="resultados">
+
+
+    </div>
+
+
+
+    <script>
+        let datos=[
+        {"tematica":"deportes","direccion":"http://www.marca.es/"},
+        {"tematica":"libros","direccion":"http://www.puntolibro.es/"},
+        {"tematica":"deportes","direccion":"http://www.todofutbol.com/"},
+        {"tematica":"libros","direccion":"http://www.fnac.es/"},
+        {"tematica":"cocina","direccion":"http://www.fogones.es/"},
+        {"tematica":"juegos","direccion":"http://www.game.es/"}
+        ];
+        function buscar(){
+
+            let resultados=[];
+            let tematica=document.getElementById("tematica").value;
+            tematica=tematica.toLowerCase();
+            //recorremos el array de datos y buscamos los JSON que 
+            //pertenezcan a la temática introducida. Los que coincidan
+            //los guardamos en la variable resultados
+            for(let r of datos){
+                if(r.tematica==tematica){
+                    resultados.push(r);
+                }
+            }
+            //volcar el contenido de array resultados en el div
+            let html="";
+            for(let d of resultados){
+                //html=html+d+"<br>";
+                html+=d.tematica+","+d.direccion+"<br>";
+            }
+            document.getElementById("resultados").innerHTML=html;
+        }
+    </script>
+</body>
+</html>

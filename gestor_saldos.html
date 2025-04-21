@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Saldo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f2f2f2;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .saldo {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .movimientos {
+            margin-top: 20px;
+        }
+        .ingreso {
+            color: green;
+        }
+        .extraccion {
+            color: red;
+        }
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Gestor de Saldo</h2>
+
+    <label><b>Saldo inicial:</b></label>
+    <input type="number" id="saldo">
+    <button onclick="grabar()">Grabar saldo</button>
+
+    <hr>
+
+    <label><b>Cantidad:</b></label>
+    <input type="number" id="cantidad">
+
+    <button onclick="ingresar()">Ingresar</button>
+    <button onclick="extraer()">Extraer</button>
+
+    <div class="saldo">
+        <b>Saldo actual: </b><span id="saldo_mov">0</span> €
+    </div>
+
+    <div class="movimientos" id="movimientos">
+        <!-- Aquí irán los movimientos -->
+    </div>
+</div>
+
+<script>
+    let saldo_principal = 0;
+    let saldo_mov = document.getElementById("saldo_mov");
+    let cantidad = document.getElementById("cantidad");
+    let movimientos = document.getElementById("movimientos");
+
+    function grabar() {
+        let saldo = Number(document.getElementById("saldo").value);
+        if (saldo < 0) {
+            alert("El saldo inicial no puede ser negativo.");
+            return;
+        }
+        saldo_principal = saldo;
+        saldo_mov.innerText = saldo_principal;
+        movimientos.innerHTML = "";
+    }
+
+    function extraer() {
+        let cant = Number(cantidad.value);
+        if (cant > saldo_principal) {
+            alert("Saldo insuficiente para esta extracción.");
+        } else if (cant <= 0) {
+            alert("Introduce una cantidad válida para extraer.");
+        } else {
+            saldo_principal -= cant;
+            movimientos.innerHTML += `<div class="extraccion">Extracción: -${cant} €</div>`;
+            saldo_mov.innerText = saldo_principal;
+        }
+        cantidad.value = "";
+    }
+
+    function ingresar() {
+        let cant = Number(cantidad.value);
+        if (cant <= 0) {
+            alert("Introduce una cantidad válida para ingresar.");
+        } else {
+            saldo_principal += cant;
+            movimientos.innerHTML += `<div class="ingreso">Ingreso: +${cant} €</div>`;
+            saldo_mov.innerText = saldo_principal;
+        }
+        cantidad.value = "";
+    }
+</script>
+
+</body>
+</html>
