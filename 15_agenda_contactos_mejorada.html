@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de contactos mejorada</title>
+    <!-- <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 48%;
+            padding: 10px;
+            margin: 8px 1%;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style> -->
+</head>
+<body>
+    Introduce nombre: <input type="text" id="nombre"><br>
+    Introduce email: <input type="text" id="email"><br>
+    Introduce telefono: <input type="text" id="telefono"><br>
+    <button onclick="guardar();">Guardar</button>
+    <br><br>
+    <button onclick="mostrar();">Mostrar</button>
+    <br><br>
+    <table id="listaContactos">
+
+    </table>
+    <script>
+        let contactos = [];
+
+        function guardar(){
+            let n=document.getElementById("nombre").value.trim();
+            let e=document.getElementById("email").value.trim();
+            let t=document.getElementById("telefono").value.trim();
+            let contacto_nuevo = {
+                'nombre':n,
+                'email':e,
+                'telefono':t
+            }
+            let repetido = false;
+            for (let c of contactos) {
+                if (c.nombre === contacto_nuevo.nombre || c.email === contacto_nuevo.email) {
+                    repetido = true;
+                    break;
+                }
+            }
+            if (repetido){
+                alert("Contacto repetido");
+            }else{
+                contactos.push(contacto_nuevo);
+                alert("Contacto guardado");
+            }
+            document.getElementById("nombre").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("telefono").value = "";
+            document.getElementById("nombre").focus();
+            
+        }
+
+        function mostrar(){
+            let html= "<tr><th>Nombre</th><th>Email</th><th>Telefono</th><th>Borrar</th>";
+            for(let i=0;i<contactos.length;i++){
+                let contacto = contactos[i];
+                html+= `<tr><td>${contacto.nombre}</td>`
+                html+= `<td>${contacto.email}</td>`
+                html+= `<td>${contacto.telefono}</td>`
+                html += `<td><a  href="#" onclick="borrar(${i});"><img src="papelera-de-reciclaje.png" width="20"></a></td></tr>`
+            }
+            document.getElementById("listaContactos").innerHTML=html;
+        }
+
+        function borrar(pos){
+            contactos.splice(pos,1);
+            mostrar();
+        }
+    </script>
+</body>
+</html>

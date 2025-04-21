@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="guardar();">Guardar</button><input type="text" id="nombre"><br>
+    <button onclick="mostrar();">Mostrar</button>
+    <div id="mostrar"></div>
+
+    <script>
+        let nombres = new Set();
+
+        function guardar(){
+            let nombre = document.getElementById("nombre").value.trim();
+            nombres.add(nombre);
+            document.getElementById("nombre").value="";
+            document.getElementById("nombre").focus();
+        }
+
+        function mostrar(){
+            let divText = document.getElementById("mostrar");
+            contenido="";
+            for (let nombre of nombres){
+                contenido += `${nombre}<br>`;
+            }
+            divText.innerHTML = contenido;
+        }
+    </script>
+</body>
+</html>
