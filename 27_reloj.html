@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-size: 80px; 
+        }
+    </style>
+</head>
+<body>
+    <div id="hora">
+
+    </div>
+    <script>
+        let hora_div = document.getElementById("hora");
+        
+
+        setInterval(() => {
+            let now = new Date();
+            hora_div.innerHTML = now.toLocaleTimeString(); 
+        }, 1000);
+    </script>
+</body>
+</html>

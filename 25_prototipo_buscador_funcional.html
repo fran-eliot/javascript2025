@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body id="body">
+    Temática:
+    <select id="tematica">
+        
+    </select>
+    <br><br>
+    
+    <table id="resultados">
+       
+
+    </table>
+
+
+
+    <script>
+       
+
+
+       let datos=[
+            {"tematica":"deportes","direccion":"http://www.marca.es"},
+            {"tematica":"libros","direccion":"http://www.puntolibro.es"},
+            {"tematica":"deportes","direccion":"http://www.todofutbol.com"},
+            {"tematica":"libros","direccion":"http://www.fnac.es"},
+            {"tematica":"cocina","direccion":"http://www.fogones.es"},
+            {"tematica":"juegos","direccion":"http://www.game.es"}
+            ];
+        
+
+        
+         
+
+        //este evento se produce una vez cargada la págian
+        document.addEventListener('DOMContentLoaded',
+            () => {
+            //creamos un array solo para las temáticas
+            // let tematicas=[];
+            // tematicas.push("Todos");
+            // for(let d of datos){
+            //     tematicas.push(d.tematica);
+            // }
+            let tematicas = ["Todos", ...datos.map(n => n.tematica)];
+            //creamos un conjunto a partir de array de tematicas
+            //y así eliminamos temáticas duplicadas
+            // let conjunto=new Set(tematicas);
+            // let html="";
+            // for(let c of conjunto){
+            //     html=html+`<option>${c}</option>`;
+            // }
+            let html="";
+            let conjunto = new Set(tematicas);
+            conjunto.forEach(c=>
+                html+=`<option>${c}</option>`
+            );
+
+        //     let html = Array.from(new Set(tematicas)).map(c => `<option>${c}</option>`).join('');
+           document.getElementById("tematica").innerHTML=html;
+         }
+            );
+
+        document.getElementById("tematica").addEventListener("change",
+         () => {
+            let tematicaSeleccionada=document.getElementById("tematica").value;
+            let html = "<tr><th>Tematica</th><th>Dirección</th></tr>";
+            datos
+            .filter(r => r.tematica == tematicaSeleccionada || tematicaSeleccionada == "Todos")
+            .map(r => html+=`<tr><td>${r.tematica}</td><td>${r.direccion}</td></tr>`);
+           
+
+            //     //si el elemento coincide con la tematica seleccionada, o se ha seleccionado
+            //     //la palabra "Todos", en ambos casos habría que construir la fila
+            //     if(r.tematica==tematicaSeleccionada||tematicaSeleccionada=="Todos"){
+            //         html=html+`<tr><td>${r.tematica}</td><td>${r.direccion}</td></tr>`;
+            //     }                    
+            // }
+            //volcado en la etiqueta tabla:
+            document.getElementById("resultados").innerHTML=html;
+        });
+    </script>
+</body>
+</html>
