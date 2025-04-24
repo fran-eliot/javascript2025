@@ -28,11 +28,15 @@
     </style>
 </head>
 <body>
-    <select id="categorias">
-        
-    </select> 
+    Seleccione archivo: <input type="file" id="archivo" accept=".json" /><br><br>
 
     <h2>CATALOGO</h2>
+    <br>
+    <div  style="text-align:center;">
+        <select id="categorias">   
+        </select> 
+    </div>
+
     <div id="catalago">
 
     </div>
@@ -43,27 +47,42 @@
     </div>
 
     <script>
-        let catalogo=[
-        {producto:"pan",categoria:"Alimentación",precio:1.2},
-        {producto:"guantes",categoria:"Textil",precio:22.5},
-        {producto:"zapatos",categoria:"Textil",precio:65.0},
-        {producto:"pantalla",categoria:"Informática",precio:200},
-        {producto:"teclado",categoria:"Informática",precio:35.8},
-        {producto:"leche",categoria:"Alimentación",precio:2.0}
-        ];
+        let catalogo=[];
 
         let carrito=[];
+
+        document.getElementById("archivo").addEventListener("change",(event)=>{
+            //Recogemos el fichero seleccionado en el componente file en html
+            let fichero=event.target.files[0];
+            //Creamos un objeto FileReader, que es el encargado de leer datos 
+            //de un fichero
+            let lector=new FileReader();
+            //Programamos los sucesos que se van a producir durante la lectura del documento
+            lector.onload=(e)=>{
+                //volcamos el contenido del fichero en el array catalogo
+                catalogo = JSON.parse(e.target.result); //representa el contenido del fichero
+                //Llamamos a la función cargar catalogo 
+                // para que muestre la tabla de productos
+                cargar_catalogo();
+            };
+            //en caso se error durante la lectura
+            lector.onerror=()=>{
+                alert("Error en la lectura");
+            };
+            //leemos el contenido del fichero
+            lector.readAsText(fichero);
+        });
 
         let div_catalogo = document.getElementById("catalago");
         let div_carrito = document.getElementById("carrito");
         let select_categorias = document.getElementById("categorias");
 
-        document.addEventListener('DOMContentLoaded',()=>{
+        function cargar_catalogo(){
             render_select();
             render_categoria('Todas');
             render_cabecera_carrito();
                
-        });
+        };
 
         select_categorias.addEventListener('change', () => render_categoria(select_categorias.value));
 
