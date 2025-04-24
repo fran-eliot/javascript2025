@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 10px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        h2 {
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <select id="categorias">
+        
+    </select> 
+
+    <h2>CATALOGO</h2>
+    <div id="catalago">
+
+    </div>
+    <br><br>
+    <h2>CARRITO</h2>
+    <div id="carrito">
+
+    </div>
+
+    <script>
+        let catalogo=[
+        {producto:"pan",categoria:"Alimentación",precio:1.2},
+        {producto:"guantes",categoria:"Textil",precio:22.5},
+        {producto:"zapatos",categoria:"Textil",precio:65.0},
+        {producto:"pantalla",categoria:"Informática",precio:200},
+        {producto:"teclado",categoria:"Informática",precio:35.8},
+        {producto:"leche",categoria:"Alimentación",precio:2.0}
+        ];
+
+        let carrito=[];
+
+        let div_catalogo = document.getElementById("catalago");
+        let div_carrito = document.getElementById("carrito");
+        let select_categorias = document.getElementById("categorias");
+
+        document.addEventListener('DOMContentLoaded',()=>{
+            render_select();
+            render_categoria('Todas');
+            render_cabecera_carrito();
+               
+        });
+
+        select_categorias.addEventListener('change', () => render_categoria(select_categorias.value));
+
+
+        function render_categoria(categoria){
+            if (categoria == 'Todas'){
+                productos_categoria = catalogo;
+            } else{
+                productos_categoria = catalogo.filter(p => (p.categoria === categoria));
+            }
+            render_catalogo(productos_categoria); 
+        }
+
+        function render_select(){
+            let categorias = new Set(catalogo.map(p => p.categoria));
+            let html="<option>Todas</option>";
+            for(let c of categorias){
+                html=html+`<option>${c}</option>`;
+            }
+            select_categorias.innerHTML = html;
+        }
+
+        function render_catalogo(productos){
+            let html = "<table><tr><td>Producto</td><td>Categoria</td><td>Precio</td><td>Agregar</td></tr>";
+            productos.forEach( (d,index) => {html+=`<tr><td>${d.producto}</td>`
+                +`<td>${d.categoria}</td>`
+                +`<td>${d.precio}</td>`
+                +`<td><button onclick='agregar_carrito("${d.producto}");'>Agregar</button></td></tr>`
+            } );
+            html+="</table>"
+            div_catalogo.innerHTML = html;
+            
+        }
+
+        function render_cabecera_carrito(){
+            let html3 = "<table><tr><td>Producto</td><td>Categoria</td><td>Precio</td><td>Borrar</td></tr>";
+            html3+="</table>";
+            div_carrito.innerHTML = html3; 
+
+        }
+
+        function agregar_carrito(nombre_producto){
+            const index = catalogo.findIndex(p => p.producto === nombre_producto);
+            if (index !== -1) {
+                carrito.push(catalogo[index]);
+                render_carrito();
+            }
+        }
+
+        function eliminar_carrito(index){
+           
+            carrito.splice(index, 1);
+            render_carrito();
+        }
+
+        function render_carrito() {
+            let html2 = "<table><tr><td>Producto</td><td>Categoria</td><td>Precio</td><td>Borrar</td></tr>";
+            carrito.forEach((d,index) => {
+                html2 += `<tr><td>${d.producto}</td>`
+                    + `<td>${d.categoria}</td>`
+                    + `<td>${d.precio}</td>`
+                    + `<td><button onclick='eliminar_carrito(${index});'>Borrar</button></td></tr>`;
+            });
+            let total = suma_carrito();
+    
+            // Agregar una fila para el total
+            html2 += `<tr><td colspan="2"><strong>Total</strong></td>
+                    <td><strong>${total.toFixed(2)} €</strong></td>
+                    <td></td></tr>`;
+            html2 += "</table>"
+            div_carrito.innerHTML = html2; 
+        }
+
+        function suma_carrito(){
+            let total = carrito.reduce((acc, p) => acc + p.precio, 0);
+            return total;
+        }
+
+         
+    </script>
+    
+</body>
+</html>
