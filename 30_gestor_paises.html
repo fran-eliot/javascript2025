@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Seleccione archivo: <input type="file" id="archivo" accept=".json" /><br><br>
+
+    <h2>Continentes</h2>
+
+    <div  style="text-align:center;">
+        <select id="continentes">   
+        </select> 
+    </div>
+
+    <div  style="text-align:center;" id="paises">
+    </div>
+
+    <script>
+        let catalago=[];
+        let continentes=[];
+        let paises=[];
+        let select_continentes = document.getElementById("continentes");
+
+        document.getElementById("archivo").addEventListener("change",(event)=>{
+            let fichero=event.target.files[0];
+            let lector=new FileReader();
+            lector.onload=(e)=>{
+                catalogo = JSON.parse(e.target.result); 
+                cargar_catalogo();
+            };
+          
+            lector.onerror=()=>{
+                alert("Error en la lectura");
+            };
+           
+            lector.readAsText(fichero);
+        });
+
+        function cargar_catalogo(){
+            render_select();
+        }
+
+        function render_select(){
+            let continentes = new Set(catalogo.map(p => p.region));
+            let html="";
+            for(let c of continentes){
+                html=html+`<option>${c}</option>`;
+            }
+            select_continentes.innerHTML = html;
+        }
+
+        select_continentes.addEventListener('change', () => render_paises(select_continentes.value));
+
+        function render_paises(continente){
+            paises=catalago.filter(p => p.region=continente);
+        }
+
+
+
+    </script>
+    
+</body>
+</html>
