@@ -5,24 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body style="text-align: center;">
     Seleccione archivo: <input type="file" id="archivo" accept=".json" /><br><br>
 
-    <h2>Continentes</h2>
+    
 
-    <div  style="text-align:center;">
-        <select id="continentes">   
+    <div id="continentes"  style="display:none;">
+        <h2>Continentes</h2>
+        <select id="select_continentes">   
         </select> 
     </div>
 
-    <div  style="text-align:center;" id="paises">
+    
+    <div  id="paises"  style="display:none;">
     </div>
 
     <script>
         let catalago=[];
         let continentes=[];
         let paises=[];
-        let select_continentes = document.getElementById("continentes");
+        let select_continentes = document.getElementById("select_continentes");
+        let div_continentes = document.getElementById('continentes');
+        let div_paises = document.getElementById("paises");
 
         document.getElementById("archivo").addEventListener("change",(event)=>{
             let fichero=event.target.files[0];
@@ -41,6 +45,7 @@
 
         function cargar_catalogo(){
             render_select();
+            div_continentes.style.display = 'block';
         }
 
         function render_select(){
@@ -55,7 +60,34 @@
         select_continentes.addEventListener('change', () => render_paises(select_continentes.value));
 
         function render_paises(continente){
-            paises=catalago.filter(p => p.region=continente);
+            div_paises.style.display = 'block';
+            paises=catalogo.filter(p => p.region==continente);
+            html=html = `
+                <h2>Países</h2>
+                <table border="1" cellpadding="5" cellspacing="0" style="margin:auto;">
+                <thead>
+                    <tr>
+                    <th>Nombre</th>
+                    <th>Capital</th>
+                    <th>Población</th>
+                    <th>Bandera</th>
+                    </tr>
+                </thead>
+                <tbody>
+                `;
+                           
+                paises.forEach(p => {
+                    html += `
+                    <tr>
+                    <td>${p.name}</td>
+                    <td>${p.capital}</td>
+                    <td>${p.population}</td>
+                    <td><img src="${p.flag}" style="width:50px;"></td>
+                    </tr>
+                    `;
+                });
+            html+="</tbody></table>";
+            div_paises.innerHTML=html;
         }
 
 
